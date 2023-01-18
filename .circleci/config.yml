@@ -16,8 +16,6 @@ jobs:
       logLevel: INFO
     steps:
       – checkout
-      – restore_cache: 
-         key: mvn-cache-circle-ci-mulesoft-poc-dev
       – run: mvn –settings settings.xml deploy -Denv=dev
 -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
 – save_cache:
@@ -34,8 +32,6 @@ jobs:
       cloudhubApplicationName: circle-ci-mulesoft-poc-qa
     steps:
       – checkout
-      – restore_cache:
-          key: circle-ci-mulesoft-poc-qa
       – run: mvn –settings settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
   deploy-prod:
     docker:
@@ -44,15 +40,12 @@ jobs:
       cloudhubPropertyEnv: prod
       cloudhubWorkerType: Small
       cloudhubEnvironment: prod
-      cloudhubApplicationName:
-circle-ci-mulesoft-poc-prod
+      cloudhubApplicationName:  circle-ci-mulesoft-poc-prod
       MAVEN_OPTS: -Xmx3200m
       cloudhubPassword: ${cloudhubProdPassword}
       cloudhubUser: ${cloudhubProdUser} 
    steps:
-      – checkout
-      – restore_cache:
-          key: mvn-cache-circle-ci-mulesoft-poc-prod
+      – checkout  
       – run: mvn –settings settings.xml deploy
 -Denv=prod -DskipTests -DmuleDeploy
       – store_artifacts:
