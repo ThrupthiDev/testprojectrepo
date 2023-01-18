@@ -1,0 +1,60 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  deploy-develop:
+    docker:
+      – image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      cloudhubPropertyEnv: dev
+      cloudhubWorkerType: Small
+      cloudhubEnvironment: dev
+      cloudhubApplicationName: circle-ci-mulesoft-poc-dev
+      logLevel: INFO
+    steps:
+      – checkout
+      – restore_cache: 
+         key: mvn-cache-circle-ci-mulesoft-poc-dev
+      – run: mvn –settings settings.xml deploy -Denv=dev
+-DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
+– save_cache:
+          paths:
+            – ~/.m2
+          key: mvn-cache-circle-ci-mulesoft-poc-dev
+  
+  deploy-prod:
+    docker:
+      – image: circleci/openjdk:8-jdk
+    working_directory: ~/repo    environment:
+      cloudhubPropertyEnv: prod
+      cloudhubWorkerType: Small
+      cloudhubEnvironment: prod
+      cloudhubApplicationName:
+circle-ci-mulesoft-poc-prod
+      MAVEN_OPTS: -Xmx3200m
+      cloudhubPassword: ${cloudhubProdPassword}
+      cloudhubUser: ${cloudhubProdUser} 
+   steps:
+      – checkout
+      – restore_cache:
+          key: mvn-cache-circle-ci-mulesoft-poc-prod
+      – run: mvn –settings settings.xml deploy
+-Denv=prod -DskipTests -DmuleDeploy
+      – store_artifacts:
+          path: targetworkflows:
+  version: 2  deploy-develop:
+    jobs:
+      – deploy-develop:
+                    filters:
+            branches:
+              only: develop
+
+    deploy-prod:
+    jobs:
+      – deploy-prod:
+          filters:
+            branches:
+              only: main
