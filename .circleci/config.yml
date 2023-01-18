@@ -24,7 +24,19 @@ jobs:
           paths:
             – ~/.m2
           key: mvn-cache-circle-ci-mulesoft-poc-dev
-  
+  deploy-qa:
+    docker:
+      – image: circleci/openjdk:8-jdk
+    working_directory: ~/repo    environment:
+      cloudhubPropertyEnv: qa
+      cloudhubWorkerType: Small
+      cloudhubEnvironment: qa
+      cloudhubApplicationName: circle-ci-mulesoft-poc-qa
+    steps:
+      – checkout
+      – restore_cache:
+          key: circle-ci-mulesoft-poc-qa
+      – run: mvn –settings settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
   deploy-prod:
     docker:
       – image: circleci/openjdk:8-jdk
@@ -51,7 +63,12 @@ circle-ci-mulesoft-poc-prod
                     filters:
             branches:
               only: develop
-
+  deploy-qa:
+    jobs:
+      – deploy-qa:
+          filters: 
+           branches:
+              only: qa
     deploy-prod:
     jobs:
       – deploy-prod:
