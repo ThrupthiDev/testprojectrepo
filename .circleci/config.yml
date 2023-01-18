@@ -9,9 +9,9 @@ jobs:
       – image: circleci/openjdk:8-jdk
     working_directory: ~/repo
     environment:
-      cloudhubPropertyEnv: dev
-      cloudhubWorkerType: Small
-      cloudhubEnvironment: dev
+      cloudhubPropertyEnv: Sandbox
+      cloudhubWorkerType: MICRO
+      cloudhubEnvironment: Sandbox
       cloudhubApplicationName: circle-ci-mulesoft-poc-dev
       logLevel: INFO
     steps:
