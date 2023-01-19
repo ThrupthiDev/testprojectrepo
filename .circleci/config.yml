@@ -1,7 +1,3 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
 version: 2
 jobs:
   deploy-develop:
@@ -16,11 +12,12 @@ jobs:
       logLevel: INFO
     steps:
       – checkout
-      – run mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
-– save_cache:
-          paths:
-            – ~/.m2
-          key: mvn-cache-circle-ci-mulesoft-poc-dev
+      – run: mvn –settings settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
+	  – save_cache:
+		  paths:
+		    – ~/.m2
+	      key: mvn-cache-circle-ci-mulesoft-poc-dev
+		  
   deploy-qa:
     docker:
       – image: circleci/openjdk:8-jdk
@@ -32,7 +29,8 @@ jobs:
       cloudhubApplicationName: circle-ci-mulesoft-poc-qa
     steps:
       – checkout
-      – run: mvn –s settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
+      – run: mvn –settings settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
+	  
   deploy-prod:
     docker:
       – image: circleci/openjdk:8-jdk
@@ -45,27 +43,29 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
       cloudhubPassword: ${cloudhubProdPassword}
       cloudhubUser: ${cloudhubProdUser} 
-   steps:
+    steps:
       – checkout  
-      – run: mvn –s settings.xml deploy -Denv=prod -DskipTests -DmuleDeploy
+      – run: mvn –settings settings.xml deploy -Denv=prod -DskipTests -DmuleDeploy
       – store_artifacts:
           path: targetworkflows:
-  version: 2  
-  deploy-develop:
-    jobs:
-      – deploy-develop:
-                    filters:
-            branches:
-              only: develop
-  deploy-qa:
-    jobs:
-      – deploy-qa:
-          filters: 
-           branches:
-              only: qa
+
+workflows:
+	version: 2  
+	deploy-develop:
+		jobs:
+		  – deploy-develop:
+			  filters:
+				branches:
+				  only: develop
+	deploy-qa:
+		jobs:
+		  – deploy-qa:
+			  filters: 
+			    branches:
+				  only: qa
     deploy-prod:
-    jobs:
-      – deploy-prod:
-          filters:
-            branches:
-              only: main
+		jobs:
+		  – deploy-prod:
+			  filters:
+				branches:
+				  only: main
