@@ -5,8 +5,7 @@ workflows:
     – deploy-develop:
        filters:
          branches:
-           only: develop
-				  
+           only: develop           
 version: 2
 jobs:
   deploy-develop:
