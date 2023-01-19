@@ -2,10 +2,10 @@ workflows:
   version: 2  
   dev:
     jobs:
-      – deploy-develop:
-          filters:
-            branches:
-              only: develop				  
+      deploy-develop:
+        filters:
+          branches:
+            only: develop				  
 version: 2
 jobs:
   deploy-develop:
