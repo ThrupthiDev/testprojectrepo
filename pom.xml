@@ -40,6 +40,7 @@
 						<businessGroup>${cloudhub.businessGroup}</businessGroup>
 						<workerType>${cloudhubWorkerType}</workerType>
 						<objectStoreV2>true</objectStoreV2>
+						<deploymentTimeout>600000</deploymentTimeout>
 						<properties>
 							<env>${cloudhubPropertyEnv}</env>
 							<cloudhubPropertyCryptKey>${cloudhubPropertyCryptKey}</cloudhubPropertyCryptKey>

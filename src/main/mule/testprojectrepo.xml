@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 output application/json
 ---
 {
-	"message" : p('secure::information')
+	"Success message" : p('secure::information')
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
