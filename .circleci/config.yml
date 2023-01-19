@@ -11,21 +11,20 @@ jobs:
       cloudhubApplicationName: circle-ci-mulesoft-poc-dev
       logLevel: INFO
     steps:
-      – checkout
-      – run
-	      name: Deploy to dev
+      – run: 
+          name: Deploy to dev
           command: mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
-	  – save_cache:
-		  paths:
-		    – ~/.m2
-	      key: mvn-cache-circle-ci-mulesoft-poc-dev
+      – save_cache:
+          paths:
+            – ~/.m2
+          key: mvn-cache-circle-ci-mulesoft-poc-dev
 
 
 workflows:
-	version: 2  
-	deploy-develop:
-		jobs:
-		  – deploy-develop:
-			  filters:
-				branches:
-				  only: develop
+  version: 2  
+  deploy-develop:
+      jobs:
+        – deploy-develop:
+            filters:
+              branches:
+                only: develop
