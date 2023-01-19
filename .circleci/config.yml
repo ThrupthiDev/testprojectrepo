@@ -26,14 +26,14 @@ workflows:
   version: 2
   dev:    
     jobs:
-      - build_dev:
+      - deploy_dev:
           filters:
             branches:
               only:
                 - develop                    
 version: 2.1    
 jobs:          
-  build_dev: 
+  deploy_dev: 
     executor: main
     environment:
       cloudhubPropertyEnv: Sandbox
@@ -45,4 +45,4 @@ jobs:
       - cstep
       - run: 
           name: Deploy to dev
-          command: mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy
+          command: mvn -s ./.circleci/settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy 
