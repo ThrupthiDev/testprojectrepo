@@ -2,13 +2,13 @@ workflows:
   version: 2  
   dev:
     jobs:
-      deploy-develop:
-        filters:
-          branches:
-            only: develop				  
+      – deploy_develop:
+          filters:
+            branches:
+              only: develop				  
 version: 2
 jobs:
-  deploy-develop:
+  deploy_develop:
     docker:
       – image: circleci/openjdk:8-jdk
     working_directory: ~/repo
