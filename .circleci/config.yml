@@ -36,9 +36,9 @@ jobs:
   deploy_dev: 
     executor: main
     environment:
-      cloudhubPropertyEnv: Sandbox
+      cloudhubPropertyEnv: dev
       cloudhubWorkerType: MICRO
-      cloudhubEnvironment: Sandbox
+      cloudhubEnvironment: dev
       cloudhubApplicationName: circle-ci-mulesoft-poc-dev
       logLevel: INFO
     steps:
