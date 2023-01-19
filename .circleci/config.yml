@@ -38,7 +38,7 @@ jobs:
     environment:
       cloudhubPropertyEnv: dev
       cloudhubWorkerType: MICRO
-      cloudhubEnvironment: dev
+      cloudhubEnvironment: Sandbox
       cloudhubApplicationName: circle-ci-mulesoft-poc-dev
       logLevel: INFO
     steps:
