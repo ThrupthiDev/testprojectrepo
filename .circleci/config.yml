@@ -43,6 +43,6 @@ jobs:
       logLevel: INFO
     steps:
       - cstep
-    – run: 
+      - run: 
           name: Deploy to dev
           command: mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy
