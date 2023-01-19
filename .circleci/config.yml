@@ -16,7 +16,8 @@ jobs:
       logLevel: INFO
     steps:
       – checkout
-      – run: mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
+      – run: 
+      mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
 – save_cache:
           paths:
             – ~/.m2
