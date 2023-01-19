@@ -16,8 +16,7 @@ jobs:
       logLevel: INFO
     steps:
       – checkout
-      – run: mvn –settings settings.xml deploy -Denv=dev
--DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
+      – run: mvn –settings settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
 – save_cache:
           paths:
             – ~/.m2
@@ -25,7 +24,8 @@ jobs:
   deploy-qa:
     docker:
       – image: circleci/openjdk:8-jdk
-    working_directory: ~/repo    environment:
+    working_directory: ~/repo    
+    environment:
       cloudhubPropertyEnv: qa
       cloudhubWorkerType: Small
       cloudhubEnvironment: qa
@@ -36,7 +36,8 @@ jobs:
   deploy-prod:
     docker:
       – image: circleci/openjdk:8-jdk
-    working_directory: ~/repo    environment:
+    working_directory: ~/repo    
+    environment:
       cloudhubPropertyEnv: prod
       cloudhubWorkerType: Small
       cloudhubEnvironment: prod
@@ -46,11 +47,11 @@ jobs:
       cloudhubUser: ${cloudhubProdUser} 
    steps:
       – checkout  
-      – run: mvn –settings settings.xml deploy
--Denv=prod -DskipTests -DmuleDeploy
+      – run: mvn –settings settings.xml deploy -Denv=prod -DskipTests -DmuleDeploy
       – store_artifacts:
           path: targetworkflows:
-  version: 2  deploy-develop:
+  version: 2  
+  deploy-develop:
     jobs:
       – deploy-develop:
                     filters:
