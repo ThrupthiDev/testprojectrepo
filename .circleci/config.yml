@@ -12,7 +12,7 @@ jobs:
       logLevel: INFO
     steps:
       – checkout
-      – run: mvn –settings settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
+      – run: mvn –s settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy      
 	  – save_cache:
 		  paths:
 		    – ~/.m2
@@ -29,7 +29,7 @@ jobs:
       cloudhubApplicationName: circle-ci-mulesoft-poc-qa
     steps:
       – checkout
-      – run: mvn –settings settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
+      – run: mvn –s settings.xml deploy -Denv=qa -DskipTests -DmuleDeploy
 	  
   deploy-prod:
     docker:
@@ -45,7 +45,7 @@ jobs:
       cloudhubUser: ${cloudhubProdUser} 
     steps:
       – checkout  
-      – run: mvn –settings settings.xml deploy -Denv=prod -DskipTests -DmuleDeploy
+      – run: mvn –s settings.xml deploy -Denv=prod -DskipTests -DmuleDeploy
       – store_artifacts:
           path: targetworkflows:
 
