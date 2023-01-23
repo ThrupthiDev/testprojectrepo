@@ -1,0 +1,48 @@
+executors:
+  main:
+    docker:
+      - image: 'cimg/openjdk:11.0.13'
+        environment:
+          MAVEN_OPTS: -Xmx3200m        
+
+restorecache: &restorecache
+  restore_cache:
+    key: 'mulesoft-{{ checksum "pom.xml" }}'
+    
+savecache: &savecache    
+  save_cache:
+    paths:
+      - ~/.m2
+    key: 'mulesoft-{{ checksum "pom.xml" }}'
+      
+commands:
+  cstep:
+    steps:
+      - checkout
+      - *restorecache    
+      - *savecache 
+      
+workflows:
+  version: 2
+  dev:    
+    jobs:
+      - deploy_dev:
+          filters:
+            branches:
+              only:
+                - develop                    
+version: 2.1    
+jobs:          
+  deploy_dev: 
+    executor: main
+    environment:
+      cloudhubPropertyEnv: dev
+      cloudhubWorkerType: MICRO
+      cloudhubEnvironment: Sandbox
+      cloudhubApplicationName: circle-ci-mulesoft-poc-dev
+      logLevel: INFO
+    steps:
+      - cstep
+      - run: 
+          name: Deploy to dev
+          command: mvn -s ./.circleci/settings.xml deploy -Denv=dev -DcloudhubPropertyCryptKey=${cloudhubPropertyCryptKey} -DmuleDeploy 
